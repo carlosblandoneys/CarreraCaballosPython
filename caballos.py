@@ -1,6 +1,10 @@
 import random
 import os
 import time
+from colorama import init, Fore, Style
+
+# Inicializa colorama
+init(autoreset=True)
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -27,6 +31,59 @@ def get_bet():
         else:
             print("Entrada no válida. Por favor, introduce un número del 1 al 6.")
 
+def fireworks_animation():
+    frames = [
+        [
+            "        ",
+            "   *    ",
+            "        ",
+            "        "
+        ],
+        [
+            "        ",
+            "  ***   ",
+            "        ",
+            "        "
+        ],
+        [
+            "        ",
+            " ** **  ",
+            "  ***   ",
+            "        "
+        ],
+        [
+            "        ",
+            "*** *** ",
+            " ** **  ",
+            "  ***   "
+        ],
+        [
+            "  ***   ",
+            "** * ** ",
+            "*** *** ",
+            " ** **  "
+        ]
+    ]
+    
+    colors = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
+    start_time = time.time()
+    
+    while time.time() - start_time < 3:
+        for color in colors:
+            for frame in frames:
+                clear_console()
+                print("C  A  R  R  E  R  A     D  E     C  A  B  A  L  L  O  S")
+                print("")
+                print("|_________|  |__________|  |_________|  |__________|  🚩")
+                print("|_____o__o|  |o_o_oo_o__|  |____o_oo_|  |_o_o__o_o_|  |")
+                print("|o__o__o__|  |o__o_o_o_o|  |_o__o_o__|  |o_________|  |")
+                print("_______________________________________________________")
+                print("")
+                print("====================================================")
+                for line in frame:
+                    print(color + line + " ¡Ganaste!")
+                time.sleep(0.1)
+
 def race():
     num_horses = 6
     track_length = 50
@@ -48,6 +105,7 @@ def race():
                 print(f"¡{horses[winner]} ha ganado la carrera!")
                 if winner == bet:
                     print("¡Felicidades! Tu caballo ha ganado.")
+                    fireworks_animation()
                 else:
                     print(f"Lo siento, apostaste por {horses[bet]}.")
                 return
