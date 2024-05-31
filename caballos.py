@@ -3,7 +3,6 @@ import os
 import time
 from colorama import init, Fore, Back, Style
 
-# Inicializa colorama
 init(autoreset=True)
 
 def clear_console():
