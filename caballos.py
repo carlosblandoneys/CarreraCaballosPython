@@ -6,7 +6,6 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def draw_race(horses_positions, track_length):
-    
     clear_console()
     print("C  A  R  R  E  R  A     D  E     C  A  B  A  L  L  O  S")
     print("")
@@ -15,12 +14,18 @@ def draw_race(horses_positions, track_length):
     print("|o__o__o__|  |o__o_o_o_o|  |_o__o_o__|  |o_________|  |")
     print("_______________________________________________________")
     print("")
-    
     print("====================================================")
     for pos in horses_positions:
         print("|" + " " * pos + "🐎" + " " * (track_length - pos) + "|" + "____🚩")
     print("=" * (track_length + 2))
-    
+
+def get_bet():
+    while True:
+        bet = input("¿Por cuál caballo quieres apostar? (1-6): ")
+        if bet.isdigit() and 1 <= int(bet) <= 6:
+            return int(bet) - 1
+        else:
+            print("Entrada no válida. Por favor, introduce un número del 1 al 6.")
 
 def race():
     num_horses = 6
@@ -31,7 +36,8 @@ def race():
     print("Bienvenido a la carrera de caballos!")
     for i, horse in enumerate(horses, 1):
         print(f"{i}. {horse}")
-    bet = int(input("¿Por cuál caballo quieres apostar? (1-6): ")) - 1
+    
+    bet = get_bet()
 
     while True:
         for i in range(num_horses):
@@ -48,5 +54,18 @@ def race():
         draw_race(horses_positions, track_length)
         time.sleep(0.2)
 
+def main():
+    while True:
+        race()
+        while True:
+            restart = input("¿Deseas iniciar una nueva carrera? (s/n): ").lower()
+            if restart in ['s', 'n']:
+                break
+            else:
+                print("Entrada no válida. Por favor, introduce 's' para sí o 'n' para no.")
+        if restart == 'n':
+            print("Gracias por jugar. ¡Hasta la próxima!")
+            break
+
 if __name__ == "__main__":
-    race()
+    main()
