@@ -1,7 +1,7 @@
 import random
 import os
 import time
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore
 
 init(autoreset=True)
 
@@ -89,12 +89,12 @@ def fireworks_animation(tribuna_lines):
                     print(color + line + " ¡Ganaste!")
                 time.sleep(0.1)
 
-
 def generate_tribuna():
     tribuna_lines = [
         "|_________|  |__________|  |_________|  |__________|  🚩",
         "|_____o__o|  |o_o_oo_o__|  |____o_oo_|  |_o_o__o_o_|  |",
-        "|o__o__o__|  |o__o_o_o_o|  |_o__o_o__|  |o_________|  |"
+        "|o__o__o__|  |o__o_o_o_o|  |_o__o_o__|  |o_________|  |",
+        "_______________________________________________________"
     ]
     colors = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
     for i in range(len(tribuna_lines)):
@@ -127,14 +127,24 @@ def race():
             horses_positions[i] += random.randint(1, 3)
             if horses_positions[i] >= track_length:
                 draw_race(horses_positions, track_length, tribuna_lines)
-                winner = i
-                print(f"¡{horses[winner]} ha ganado la carrera!")
-                if winner == bet:
-                    print("¡Felicidades! Tu caballo ha ganado.")
-                    fireworks_animation(tribuna_lines) 
+                winners = [j for j, pos in enumerate(horses_positions) if pos >= track_length]
+                if len(winners) == 1:
+                    winner = winners[0]
+                    print(f"¡{horses[winner]} ha ganado la carrera!")
+                    if winner == bet:
+                        print("¡Felicidades! Tu caballo ha ganado.")
+                        fireworks_animation(tribuna_lines) 
+                    else:
+                        print(f"Lo siento, apostaste por {horses[bet]}.")
+                    return
                 else:
-                    print(f"Lo siento, apostaste por {horses[bet]}.")
-                return
+                    print("¡Hay un empate! Se decidirá con una carrera entre los caballos empatados.")
+                    draw_race(horses_positions, track_length, tribuna_lines)
+                    time.sleep(2)
+                    
+                    race()
+                    return
+        
         draw_race(horses_positions, track_length, tribuna_lines)
         time.sleep(0.2)
 
